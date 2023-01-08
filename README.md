@@ -1,1 +1,1 @@
-# BinaryGame
+# Binary Game

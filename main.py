@@ -10,6 +10,8 @@ have difficulties, that decrease the max (Base Value will be 15)
 From the letters give some for vowels and constants, more for vowels than constants
 
 Then add the word check
+
+Some words use the same letters more than once, so account for that
 """
 
 from random import *
@@ -40,29 +42,29 @@ def roll_to_binary_to_letter_converter():
         # Since all binary_data letters start with 011, to increase the odds and make the game *actually*
         # playable. We set the first three letters to 011
         binary_data = "011"
-        if len(character_bank) < 15:  # 15 for now. Check to do list to see what I have planned for this
+        if len(character_bank) < 10:  # 15 for now. Check to do list to see what I have planned for this
             rolls = []  # Creating the rolls list
             rolls.clear()  # Clearing it for the new letter. One iteration of this loop = one letter
             input("Press enter to roll: ")
             for _ in range(5):
                 rolls.append(randint(1, 6))  # Adding 5 numbers to list
-            print(rolls)
+            print(f"\nYou Rolled: {rolls}")
             for number in range(len(rolls)):  # If the roll is even it becomes a 1 and if it is odd it becomes odd
                 if rolls[number] % 2 == 0:
                     rolls[number] = 1
                 else:
                     rolls[number] = 0
+            print(f"Converted to: {rolls}")
             for number in rolls:  # For the 5 rolls
                 binary_data += str(number)  # Add it to the first 3 letters
-            print(binary_data)
             letter = chr(int(binary_data, 2))  # Converts binary to letter
-            print(letter)
+            print(f"The letter you rolled is: {letter}")
 
             alphabet = list(string.ascii_lowercase)  # Get the alphabet as a list in all lowercase
             if letter not in alphabet or letter in character_bank:  # Some of the 011XXXXX binary contain stuff
                 # beyond letters. This check if its is a letter and not a pre-existing letter in the character bank
                 while True:  # Again your standard user input while True loop
-                    reroll = input("Your roll is invalid. Would you like to reroll? (Y/N) ").title()
+                    reroll = input("\nYour roll is invalid. Would you like to reroll? (Y/N) ").title()
                     if reroll == "Y":
                         break
                     elif reroll == "N":
@@ -73,8 +75,8 @@ def roll_to_binary_to_letter_converter():
             else:  # If it is a letter in the alphabet append to the list, and show user what letters they currently
                 # have.
                 character_bank.append(letter)
-                print(character_bank)
-                print(len(character_bank))
+                print(f"Your character Bank: {character_bank}\n")
+                # print(len(character_bank))
         else:
             break
 
@@ -84,7 +86,6 @@ def check_word():
     used_words = []
     file = open('Dictionary.json')
     print(f"{file} opened")
-
     # returns JSON as a dictionary
     data = json.load(file)
     while True:

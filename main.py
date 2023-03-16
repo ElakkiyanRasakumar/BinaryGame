@@ -5,11 +5,9 @@
 """
 TODO
 Make it so they roll a number for how many letters, but I set a hard min and max. Later on,
-have difficulties, that decrease the max (Base Value will be 15) 
+have difficulties, that decrease the max (Base Value will be 10) ) - DO WITH GUI
 
 From the letters give some for vowels and constants, more for vowels than constants
-
-Then add the word check
 
 Some words use the same letters more than once, so account for that
 """
@@ -44,7 +42,7 @@ def roll_to_binary_to_letter_converter():
         # Since all binary_data letters start with 011, to increase the odds and make the game *actually*
         # playable. We set the first three letters to 011
         binary_data = "011"
-        if len(character_bank) < 10:  # 15 for now. Check to do list to see what I have planned for this
+        if len(character_bank) < 10:  # 10 for now. Check to do list to see what I have planned for this
             rolls = []  # Creating the rolls list
             og_rolls = []
             rolls.clear()  # Clearing it for the new letter. One iteration of this loop = one letter
@@ -53,7 +51,6 @@ def roll_to_binary_to_letter_converter():
                 input("Press enter to roll: ")
             for _ in range(5):
                 rolls.append(randint(1, 6))  # Adding 5 numbers to list
-            og_rolls = rolls
             for number in range(len(rolls)):  # If the roll is even it becomes a 1 and if it is odd it becomes odd
                 if rolls[number] % 2 == 0:
                     rolls[number] = 1
@@ -84,7 +81,6 @@ def check_word():
     correct_words = 0
     used_words = []
     file = open('Dictionary.json')
-    print(f"{file} opened")
     # returns JSON as a dictionary
     data = json.load(file)
     while True:

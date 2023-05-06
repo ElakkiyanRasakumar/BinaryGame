@@ -13,8 +13,6 @@ Some words use the same letters more than once, so account for that
 
 Check for aliasing for def want_to_play()
 
-Add scrambling of word bank
-
 Add ability to quit program
 """
 from random import *
@@ -77,6 +75,7 @@ def roll_to_binary_to_letter_converter():
             else:
                 for _ in range(5):
                     rolls.append(randint(1, 6))  # Adding 5 numbers to list
+                og_rolls = rolls[:]
                 for number in range(len(rolls)):  # If the roll is even it becomes a 1 and if it is odd it becomes odd
                     if rolls[number] % 2 == 0:
                         rolls[number] = 1
@@ -95,10 +94,15 @@ def roll_to_binary_to_letter_converter():
                 # have.
                 reroll = True
                 character_bank.append(letter)
-                print(f"\nYou Rolled: {og_rolls}")
-                print(f"Converted to: {rolls}")
-                print(f"The letter you rolled is: {letter}")
-                print(f"Your character Bank: {character_bank}\n")
+                if len(rolls) == 0:
+                    print("\nYou have been granted a vowel")
+                    print(f"The letter you rolled is: {letter}")
+                    print(f"Your character Bank: {character_bank}\n")
+                else:
+                    print(f"\nYou Rolled: {og_rolls}")
+                    print(f"Converted to: {rolls}")
+                    print(f"The letter you rolled is: {letter}")
+                    print(f"Your character Bank: {character_bank}\n")
         else:
             break
 
@@ -110,7 +114,7 @@ def check_word():
     # returns JSON as a dictionary
     word_bank = json.load(file)
     while True:
-        word = input("Make a word: ").lower()
+        word = input("\nMake a word: ").lower()
         for i in word:
             if i not in character_bank:  # Checks if the letters in the word are in the character bank
                 print("That word contains letter not included in the word bank. Try again")
@@ -127,7 +131,7 @@ def check_word():
                 print(f"Nice. Words Correct: {used_words}")
                 print(character_bank)
             else:
-                shuffle_input = input("That was an invalid word. Try again. \nPress S to shuffle the word bank: ").lower()
+                shuffle_input = input("\nThat was an invalid word. Try again. \nPress S to shuffle the word bank: ").lower()
                 if shuffle_input == "s":
                     shuffle(character_bank)
                     print(character_bank)

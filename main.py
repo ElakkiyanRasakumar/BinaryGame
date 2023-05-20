@@ -15,11 +15,16 @@ Check for aliasing for def want_to_play()
 
 Add ability to quit program
 """
+
 from random import *
 from sys import exit
 import string
 import json
+from tkinter import *
 
+root = Tk()
+root.geometry("1080x720")
+root.title("Word Game")
 
 def want_to_play():
     # Asks user if they want to play
@@ -114,27 +119,28 @@ def check_word():
     # returns JSON as a dictionary
     word_bank = json.load(file)
     while True:
-        word = input("\nMake a word: ").lower()
+        print(f"\n{character_bank}")
+        word = input("Make a word: ").lower()
+        if word == "s":
+            shuffle(character_bank)
+            continue
         for i in word:
             if i not in character_bank:  # Checks if the letters in the word are in the character bank
                 print("That word contains letter not included in the word bank. Try again")
-                print(character_bank)
                 break
-        else:
             if word in used_words:
                 print("You already used that word. Try again.") # Checks if the word has already been used
-                print(character_bank)
 
-            elif word in word_bank:  # Checks if the word is a real word
+            elif word in word_bank and len(word) > 2:  # Checks if the word is a real word
                 used_words.append(word)
                 correct_words += 1
                 print(f"Nice. Words Correct: {used_words}")
-                print(character_bank)
             else:
-                shuffle_input = input("\nThat was an invalid word. Try again. \nPress S to shuffle the word bank: ").lower()
+                shuffle_input = input("\nThat was an invalid word. Try again. \nPress S to shuffle the word bank or ENTER to continue: ").lower()
                 if shuffle_input == "s":
                     shuffle(character_bank)
-                    print(character_bank)
+            break
+
         # Closing file
         file.close()
 
@@ -149,6 +155,7 @@ def main():
         check_word()
     except KeyboardInterrupt:
         exit()
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

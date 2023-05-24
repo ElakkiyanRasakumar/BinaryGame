@@ -20,11 +20,7 @@ from random import *
 from sys import exit
 import string
 import json
-from tkinter import *
 
-root = Tk()
-root.geometry("1080x720")
-root.title("Word Game")
 
 def want_to_play():
     # Asks user if they want to play
@@ -136,7 +132,11 @@ def check_word():
                 correct_words += 1
                 print(f"Nice. Words Correct: {used_words}")
             else:
-                shuffle_input = input("\nThat was an invalid word. Try again. \nPress S to shuffle the word bank or ENTER to continue: ").lower()
+                if len(word) <= 2:
+                    print("\nThat word was too SHORT. Try again.")
+                else:
+                    print("\nThat was an invalid word. Try again.")
+                shuffle_input = input("Press S to shuffle the word bank or ENTER to continue: ").lower()
                 if shuffle_input == "s":
                     shuffle(character_bank)
             break

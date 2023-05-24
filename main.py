@@ -150,6 +150,7 @@ character_bank = []
 
 def main():
     try:
+        print("git ignore test")
         want_to_play()
         roll_to_binary_to_letter_converter()
         check_word()

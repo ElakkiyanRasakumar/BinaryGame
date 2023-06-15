@@ -16,9 +16,6 @@ character_bank = []
 rolling_button = Button(root, text="Roll", width=10, height=2, font=("Arial", 16), background="#32A868", activebackground="#32A868", highlightthickness=0, command=lambda x="test" : tkinterbutton())
 rolling_button.place(x=1080, y=0, anchor="ne")
 
-make_word_button = Button(root, text="Make Word", width=10, height=2, font=("Arial", 16), background="#32A868", activebackground="#32A868", highlightthickness=0)
-
-
 def tkinterbutton():
     y= 250
     binary_number_canvas = Canvas(root, width=450, height=200, background="#32A868", bd=0, highlightthickness=0)
@@ -60,9 +57,6 @@ def tkinterbutton():
             for i in character_bank:
                 if i in vowels:
                     number_of_vowels += 1
-
-
-
             if randint(1, 10) <= 5 and number_of_vowels <= 2:
                 # 70% chance of getting a vowel
                 # 30% chance of getting a constant
@@ -107,21 +101,55 @@ def tkinterbutton():
                     converted_number_canvas.create_text(i*100+11, 10, text=rolls[i], font=("Arial", 28), fill="white", anchor="nw")
                 your_character_canvas_text = your_character_canvas.create_text(0, 0, text=f'Your Letter is: {letter}', font=("Arial", 28), fill="white", anchor="nw")
                 character_bank_canvas_text = character_bank_canvas.create_text(25, 50, text=f'Your Character Bank: {character_bank}', font=("Arial", 16), fill="white", anchor="nw")
-                if character_bank_canvas.bbox(character_bank_canvas_text)[2] - character_bank_canvas.bbox(character_bank_canvas_text)[0] > 450:
-                    pass # Might do something with this later
+
+                # if character_bank_canvas.bbox(character_bank_canvas_text)[2] - character_bank_canvas.bbox(character_bank_canvas_text)[0] > 450:
+                #     pass # Might do something with this later
+
                 if len(character_bank) == 10:
                     print("You have reached the maximum amount of letters you can have")
                     character_bank_canvas.delete("all")
                     your_character_canvas.delete("all")
                     binary_number_canvas.delete("all")
                     converted_number_canvas.delete("all")
-                    rolling_button.config(state=DISABLED)
-                    make_word_button.place(x=1080, y=0, anchor="ne")
-                    # make the character bank at the top with .configure
+                    rolling_button.destroy()
 
+                    sus = ""
+                    def on_key(event):
+                        nonlocal sus
+                        if len(sus) > 20:
+                            sus = ""
+                        sus += event.char
+                        letter_canvas.itemconfigure(rect_id, text=sus)
+                    root.bind("<Key>", on_key)
+
+                    letter_canvas = Canvas(root, width=1080, height=300, background="#32A868", bd=0,
+                                           highlightthickness=0)
+
+                    character_bank_canvas = Canvas(root, width=1080, height=100, background="#32A868", bd=0,
+                                                   highlightthickness=0)
+
+                    make_word_button = Button(root, text="Make Word", width=12, height=3, font=("Arial", 18),
+                                              background="#32A868", activebackground="#32A868", highlightthickness=0)
+
+                    character_bank_canvas.place(x=0, y=0, anchor="nw")
+                    character_bank_canvas.create_text(540, 50, text=f'Your Character Bank: {character_bank}',
+                                                       font=("Arial", 26), fill="white", anchor="n")
+
+                    make_word_button.place(x=540, y=550, anchor="center")
+
+                    letter_canvas.place(x=0, y=360, anchor="w")
+                    letter_canvas.create_rectangle(540 - 25, 100 - 25, 540 + 25, 100 + 60, width=2)
+                    rect_id = letter_canvas.create_text(540, 100, text="", font=("Arial", 28), fill="white", anchor="center")
             break
 
 def makewordbutton():
+    '''
+    when button.pressed = true:
+        display box (letter)
+    while
+        if input() = enter:
+            checkword()
+    '''
     pass
 def main():
     pass

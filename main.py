@@ -114,6 +114,8 @@ def check_word():
     file = open('Dictionary.json')
     # returns JSON as a dictionary
     word_bank = json.load(file)
+    # Closing file
+    file.close()
     while True:
         print(f"\n{character_bank}")
         word = input("Make a word: ").lower()
@@ -141,8 +143,6 @@ def check_word():
                     shuffle(character_bank)
             break
 
-        # Closing file
-        file.close()
 
 
 character_bank = []

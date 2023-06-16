@@ -113,17 +113,35 @@ def tkinterbutton():
                     converted_number_canvas.delete("all")
                     rolling_button.destroy()
 
-                    sus = ""
-                    def on_key(event):
-                        nonlocal sus
-                        if len(sus) > 20:
-                            sus = ""
-                        sus += event.char
-                        letter_canvas.itemconfigure(rect_id, text=sus)
-                    root.bind("<Key>", on_key)
+                    word = ""
+                    letters_on_screen = []
+                    rectangles_for_letters=[]
 
                     letter_canvas = Canvas(root, width=1080, height=300, background="#32A868", bd=0,
                                            highlightthickness=0)
+                    letter_canvas.place(x=0, y=360, anchor="w")
+
+
+                    def on_key_press(event):
+                        nonlocal word
+                        word += event.char
+                        print(word)
+                        if word in list(string.ascii_lowercase):
+                            text_box = letter_canvas.create_text(540, 100, text=word, font=("Arial", 28), fill="white", anchor="center")
+                            # will_this_work = letter_canvas.create_rectangle(540-25, 60, 540+25, 145, width=2) #50x15 length x wdith
+                            letters_on_screen.append(text_box)
+                            # rectangles_for_letters.append(will_this_work)
+                            if len(letters_on_screen) != 1:
+                                multiplying_factor = len(letters_on_screen) - 1
+                                print(multiplying_factor)
+                                for i in range(len(letters_on_screen)):
+                                    if multiplying_factor > 0:
+                                        letter_canvas.coords(letters_on_screen[i],540-18*multiplying_factor, 100)
+                                    else:
+                                        letter_canvas.coords(letters_on_screen[i],540+18*-multiplying_factor, 100)
+                                    multiplying_factor -= 2
+                    root.bind("<Key>", on_key_press)
+                    word = ""
 
                     character_bank_canvas = Canvas(root, width=1080, height=100, background="#32A868", bd=0,
                                                    highlightthickness=0)
@@ -137,9 +155,7 @@ def tkinterbutton():
 
                     make_word_button.place(x=540, y=550, anchor="center")
 
-                    letter_canvas.place(x=0, y=360, anchor="w")
-                    letter_canvas.create_rectangle(540 - 25, 100 - 25, 540 + 25, 100 + 60, width=2)
-                    rect_id = letter_canvas.create_text(540, 100, text="", font=("Arial", 28), fill="white", anchor="center")
+
             break
 
 def makewordbutton():

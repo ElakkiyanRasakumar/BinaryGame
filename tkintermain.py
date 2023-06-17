@@ -113,7 +113,6 @@ def tkinterbutton():
                     converted_number_canvas.delete("all")
                     rolling_button.destroy()
 
-                    word = ""
                     letters_on_screen = []
                     rectangles_for_letters_on_screen = []
 
@@ -121,23 +120,23 @@ def tkinterbutton():
                                            highlightthickness=0)
                     letter_canvas.place(x=0, y=360, anchor="w")
 
+                    temporary = letter_canvas.create_rectangle(515, 60, 565, 145, width=2)
+
                     typed_letters = []
                     def on_key_press(event):
-                        nonlocal word
-                        word =""
-                        word += event.char
-                        print(word)
-                        if word in list(string.ascii_lowercase):
-                            typed_letters.append(word)
-                            text_box = letter_canvas.create_text(540, 100, text=word, font=("Arial", 28), fill="white", anchor="center")
+
+                        user_inputted_letter = ""
+                        user_inputted_letter += event.char
+                        if user_inputted_letter in list(string.ascii_lowercase) and user_inputted_letter in character_bank:
+                            typed_letters.append(user_inputted_letter)
+                            text_box = letter_canvas.create_text(540, 100, text=user_inputted_letter, font=("Arial", 28), fill="white", anchor="center")
                             will_this_work = letter_canvas.create_rectangle(515, 60, 565, 145, width=2) #50x85 length x wdith
                             letters_on_screen.append(text_box)
                             rectangles_for_letters_on_screen.append(will_this_work)
+                            if len(typed_letters) >= 1:
+                                letter_canvas.delete(temporary)
                             if len(letters_on_screen) != 1:
                                 multiplying_factor = len(letters_on_screen) - 1
-                                print(multiplying_factor)
-                                print(len(rectangles_for_letters_on_screen))
-                                print(rectangles_for_letters_on_screen)
                                 for i in range(len(letters_on_screen)):
                                     if multiplying_factor > 0:
                                         letter_canvas.coords(letters_on_screen[i],540-25*multiplying_factor, 100)
@@ -146,7 +145,6 @@ def tkinterbutton():
                                         letter_canvas.coords(letters_on_screen[i],540+25*abs(multiplying_factor), 100)
                                         letter_canvas.coords(rectangles_for_letters_on_screen[i], 515 + 25 * abs(multiplying_factor), 60, 565 + 25 * abs(multiplying_factor), 145)
                                     multiplying_factor -= 2
-                        print(typed_letters)
 
                     root.bind("<Key>", on_key_press)
 

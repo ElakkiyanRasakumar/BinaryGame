@@ -115,33 +115,40 @@ def tkinterbutton():
 
                     word = ""
                     letters_on_screen = []
-                    rectangles_for_letters=[]
+                    rectangles_for_letters_on_screen = []
 
                     letter_canvas = Canvas(root, width=1080, height=300, background="#32A868", bd=0,
                                            highlightthickness=0)
                     letter_canvas.place(x=0, y=360, anchor="w")
 
-
+                    typed_letters = []
                     def on_key_press(event):
                         nonlocal word
+                        word =""
                         word += event.char
                         print(word)
                         if word in list(string.ascii_lowercase):
+                            typed_letters.append(word)
                             text_box = letter_canvas.create_text(540, 100, text=word, font=("Arial", 28), fill="white", anchor="center")
-                            # will_this_work = letter_canvas.create_rectangle(540-25, 60, 540+25, 145, width=2) #50x15 length x wdith
+                            will_this_work = letter_canvas.create_rectangle(515, 60, 565, 145, width=2) #50x85 length x wdith
                             letters_on_screen.append(text_box)
-                            # rectangles_for_letters.append(will_this_work)
+                            rectangles_for_letters_on_screen.append(will_this_work)
                             if len(letters_on_screen) != 1:
                                 multiplying_factor = len(letters_on_screen) - 1
                                 print(multiplying_factor)
+                                print(len(rectangles_for_letters_on_screen))
+                                print(rectangles_for_letters_on_screen)
                                 for i in range(len(letters_on_screen)):
                                     if multiplying_factor > 0:
-                                        letter_canvas.coords(letters_on_screen[i],540-18*multiplying_factor, 100)
+                                        letter_canvas.coords(letters_on_screen[i],540-25*multiplying_factor, 100)
+                                        letter_canvas.coords(rectangles_for_letters_on_screen[i], 515 - 25 * multiplying_factor, 60, 565 - 25 * multiplying_factor, 145)
                                     else:
-                                        letter_canvas.coords(letters_on_screen[i],540+18*-multiplying_factor, 100)
+                                        letter_canvas.coords(letters_on_screen[i],540+25*abs(multiplying_factor), 100)
+                                        letter_canvas.coords(rectangles_for_letters_on_screen[i], 515 + 25 * abs(multiplying_factor), 60, 565 + 25 * abs(multiplying_factor), 145)
                                     multiplying_factor -= 2
+                        print(typed_letters)
+
                     root.bind("<Key>", on_key_press)
-                    word = ""
 
                     character_bank_canvas = Canvas(root, width=1080, height=100, background="#32A868", bd=0,
                                                    highlightthickness=0)

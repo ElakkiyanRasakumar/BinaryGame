@@ -169,9 +169,8 @@ def on_key_press(event, letter_or_backspace):
     print(temporary)
     user_inputted_letter = ""
     user_inputted_letter += event.char
-    if letter_or_backspace != "backspace" and user_inputted_letter in list(string.ascii_lowercase) and user_inputted_letter in character_bank and \
-            len(letters_on_screen) < 21:
-        print("my")
+
+    if letter_or_backspace != "backspace" and  user_inputted_letter in character_bank and len(letters_on_screen) < 21:
         letter_canvas.delete(temporary)
         temporary = None
         typed_letters.append(user_inputted_letter)
@@ -182,7 +181,6 @@ def on_key_press(event, letter_or_backspace):
         letters_on_screen.append(text_box)
         rectangles_for_letters_on_screen.append(first_box)
     elif len(letters_on_screen) >= 1 and letter_or_backspace == "backspace":
-        print("name")
         letter_to_delete = letters_on_screen[-1]
         letters_on_screen.pop(-1)
         letter_canvas.delete(letter_to_delete)
@@ -194,9 +192,6 @@ def on_key_press(event, letter_or_backspace):
         typed_letters.pop(-1)
 
     if len(typed_letters) >= 1:
-        print("is")
-        letter_canvas.delete(temporary)
-        temporary = None
         multiplying_factor = len(letters_on_screen) - 1
         for i in range(len(letters_on_screen)):
             if multiplying_factor > 0:
@@ -221,11 +216,34 @@ def makewordbutton():
     global letters_on_screen
     global letter_canvas
     x = "".join(typed_letters)
-    print(x)
+    duration = 0.5
+    magnitude = 10
+    frequency = 10
     if x in word_bank and len(x) >= 3 and x not in used_words:
         print("Correct")
         used_words.append(x)
         number_of_correct_words += 1
+
+    else:
+        # Get the initial position of the root window
+        x = root.winfo_x()
+        y = root.winfo_y()
+
+        # Calculate the number of frames
+        num_frames = int(duration * frequency)
+
+        # Shake the screen by moving the root window randomly
+        for _ in range(num_frames):
+            dx = randint(-magnitude, magnitude)
+            dy = randint(-magnitude, magnitude)
+            root.geometry("+{}+{}".format(x + dx, y + dy))
+            root.update()
+            root.after(int(1000 / frequency))
+
+        # Reset the position of the root window to the original position
+        root.geometry("+{}+{}".format(x, y))
+        root.update()
+
     print(used_words)
     print(number_of_correct_words)
     # To reset the letters and rectangles on screen

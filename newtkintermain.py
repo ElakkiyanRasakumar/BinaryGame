@@ -165,12 +165,15 @@ def tkinterbutton():
 
 #
 def on_key_press(event, letter_or_backspace):
-    print(letter_or_backspace)
+    global temporary
+    print(temporary)
     user_inputted_letter = ""
     user_inputted_letter += event.char
-    print(user_inputted_letter)
     if letter_or_backspace != "backspace" and user_inputted_letter in list(string.ascii_lowercase) and user_inputted_letter in character_bank and \
             len(letters_on_screen) < 21:
+        print("my")
+        letter_canvas.delete(temporary)
+        temporary = None
         typed_letters.append(user_inputted_letter)
         text_box = letter_canvas.create_text(540, 100, text=user_inputted_letter,
                                              font=("Arial", 28), fill="white", anchor="center")
@@ -179,6 +182,7 @@ def on_key_press(event, letter_or_backspace):
         letters_on_screen.append(text_box)
         rectangles_for_letters_on_screen.append(first_box)
     elif len(letters_on_screen) >= 1 and letter_or_backspace == "backspace":
+        print("name")
         letter_to_delete = letters_on_screen[-1]
         letters_on_screen.pop(-1)
         letter_canvas.delete(letter_to_delete)
@@ -190,7 +194,9 @@ def on_key_press(event, letter_or_backspace):
         typed_letters.pop(-1)
 
     if len(typed_letters) >= 1:
+        print("is")
         letter_canvas.delete(temporary)
+        temporary = None
         multiplying_factor = len(letters_on_screen) - 1
         for i in range(len(letters_on_screen)):
             if multiplying_factor > 0:
@@ -205,8 +211,8 @@ def on_key_press(event, letter_or_backspace):
                                      515 + 25 * abs(multiplying_factor), 60,
                                      565 + 25 * abs(multiplying_factor), 145)
             multiplying_factor -= 2
-    else:
-        letter_canvas.create_rectangle(515, 60, 565, 145, width=2)
+    if len(letters_on_screen) == 0 and temporary == None:
+        temporary = letter_canvas.create_rectangle(515, 60, 565, 145, width=2)
 
 
 def makewordbutton():

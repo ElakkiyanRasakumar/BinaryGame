@@ -42,16 +42,9 @@ rolling_button = Button(root, text="Roll", width=10, height=2, font=("Arial", 16
                         activebackground="#32A868", highlightthickness=0, command=lambda x="test": tkinterbutton())
 rolling_button.place(x=1080, y=0, anchor="ne")
 
-
 def tkinterbutton():
-    global switch_case
-    global character_bank_canvas
-    global your_character_canvas
-    global binary_number_canvas
-    global converted_number_canvas
-    global character_bank
-    global letter_canvas
-    global temporary
+    global switch_case, character_bank_canvas, your_character_canvas, binary_number_canvas, \
+        converted_number_canvas, character_bank, letter_canvas, temporary
 
     if character_bank_canvas is None:
         binary_number_canvas = Canvas(root, width=450, height=200, background="#32A868", bd=0, highlightthickness=0)
@@ -117,6 +110,7 @@ def tkinterbutton():
             else:  # If it is a letter in the alphabet append to the list, and show user what letters they currently
                 # have.
                 character_bank.append(letter)
+
                 if len(rolls) == 0:
                     print("\nYou have been granted a vowel")
                     print(f"The letter you rolled is: {letter}")
@@ -193,6 +187,7 @@ def on_key_press(event, letter_or_backspace):
 
     if len(typed_letters) >= 1:
         multiplying_factor = len(letters_on_screen) - 1
+        temporary = None
         for i in range(len(letters_on_screen)):
             if multiplying_factor > 0:
                 letter_canvas.coords(letters_on_screen[i], 540 - 25 * multiplying_factor, 100)
@@ -211,10 +206,7 @@ def on_key_press(event, letter_or_backspace):
 
 
 def makewordbutton():
-    global temporary
-    global number_of_correct_words
-    global letters_on_screen
-    global letter_canvas
+    global temporary, number_of_correct_words, letters_on_screen, letter_canvas
     x = "".join(typed_letters)
     duration = 0.5
     magnitude = 10
@@ -236,13 +228,15 @@ def makewordbutton():
         for _ in range(num_frames):
             dx = randint(-magnitude, magnitude)
             dy = randint(-magnitude, magnitude)
-            root.geometry("+{}+{}".format(x + dx, y + dy))
+            root.geometry(f"+{x+dx}+{y+dy}")
             root.update()
             root.after(int(1000 / frequency))
 
         # Reset the position of the root window to the original position
-        root.geometry("+{}+{}".format(x, y))
+        root.geometry(f"+{x}+{y}")
         root.update()
+        # root.configure(background="red")
+        # root.after(3000, root.configure(background="#32A868"))
 
     print(used_words)
     print(number_of_correct_words)
@@ -278,8 +272,6 @@ root.mainloop()
 
 def main():
     pass
-
-
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

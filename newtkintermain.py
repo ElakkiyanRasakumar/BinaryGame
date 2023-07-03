@@ -1,6 +1,5 @@
 from tkinter import *
 from random import *
-from sys import exit
 import string
 import json
 
@@ -38,13 +37,16 @@ number_of_correct_words_label = Label(root, text=f"Number of Correct Words: {num
                                       font=("Arial", 15), background="#32A868")
 
 #Start off with button placed
-rolling_button = Button(root, text="Roll", width=10, height=2, font=("Arial", 16), background="#32A868",
+rolling_button = Button(root, text="Roll", width=15, height=5, font=("Arial", 16), background="#32A868",
                         activebackground="#32A868", highlightthickness=0, command=lambda x="test": tkinterbutton())
-rolling_button.place(x=1080, y=0, anchor="ne")
+rolling_button.place(x=540, y=360, anchor="center")
 
 def tkinterbutton():
     global switch_case, character_bank_canvas, your_character_canvas, binary_number_canvas, \
-        converted_number_canvas, character_bank, letter_canvas, temporary
+        converted_number_canvas, character_bank, letter_canvas, temporary, rolling_button
+
+    rolling_button.configure(width=10, height=2)
+    rolling_button.place(x=1080, y=0, anchor="ne")
 
     if character_bank_canvas is None:
         binary_number_canvas = Canvas(root, width=450, height=200, background="#32A868", bd=0, highlightthickness=0)
@@ -223,6 +225,7 @@ def makewordbutton():
 
         # Calculate the number of frames
         num_frames = int(duration * frequency)
+
 
         # Shake the screen by moving the root window randomly
         for _ in range(num_frames):

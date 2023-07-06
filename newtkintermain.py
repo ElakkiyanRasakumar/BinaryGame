@@ -1,3 +1,7 @@
+# TODO
+# S for shuffle
+# I think there is some glitch I need to fix where if I press backspace and enter when no character are present on the sctrreen the temporary box is on screen
+
 from tkinter import *
 from random import *
 import string
